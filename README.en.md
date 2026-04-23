@@ -71,11 +71,7 @@ Context-isolated cross-verification
 
 - 🎯 **Core mechanism**: Input isolation, not model diversity
 - 📦 `ReviewPack` → isolated review → structured findings
-<<<<<<< HEAD
-- 🔭 Not just code — protocol applies to any reviewable artifact
-=======
 - 🔭 Not just code — applies to any reviewable artifact
->>>>>>> f15964a (feat: add profile README with bilingual support)
 - 🔌 Plugs into any AI coding workflow
 - 📍 **Position**: Local optimum — independent verification per change
 
