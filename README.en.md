@@ -12,7 +12,7 @@
 
 ## 🧭 What I'm Thinking About
 
-We're in the golden age for learners. AI compresses years of trial-and-error into weeks — but only if you can trust what it produces. And AI doesn't just produce code — it also produces plans, design decisions, and decision records.
+We're in the golden age for learners — people with ideas can now collide with AI, validate fast, and iterate fast. But only if you can trust what it produces. And those outputs aren't just code — they include plans, design decisions, and decision records.
 
 **AI assistants are powerful producers. They're poor self-verifiers.**
 
@@ -71,7 +71,11 @@ Context-isolated cross-verification
 
 - 🎯 **Core mechanism**: Input isolation, not model diversity
 - 📦 `ReviewPack` → isolated review → structured findings
+<<<<<<< HEAD
 - 🔭 Not just code — protocol applies to any reviewable artifact
+=======
+- 🔭 Not just code — applies to any reviewable artifact
+>>>>>>> f15964a (feat: add profile README with bilingual support)
 - 🔌 Plugs into any AI coding workflow
 - 📍 **Position**: Local optimum — independent verification per change
 
