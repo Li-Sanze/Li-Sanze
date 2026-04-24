@@ -5,7 +5,7 @@
 </p>
 
 <p align="center">
-  <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=600&size=22&pause=1000&color=58A6FF&center=true&vCenter=true&repeat=true&width=680&height=45&lines=Understand+%C2%B7+Use+%C2%B7+Make+the+rules.;Local+optimum+%E2%89%A0+Global+optimum.;AI+produces.+Structure+verifies." alt="Typing SVG" />
+  <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=600&size=22&pause=1000&color=58A6FF&center=true&vCenter=true&repeat=true&width=680&height=45&lines=Local+optimum+%E2%89%A0+Global+optimum.;AI+produces.+Structure+verifies." alt="Typing SVG" />
 </p>
 
 ---
@@ -14,13 +14,13 @@
 
 We're in the golden age for learners — people with ideas can now collide with AI, validate fast, and iterate fast. But only if you can trust what it produces. And those outputs aren't just code — they include plans, design decisions, and decision records.
 
-**AI assistants are powerful producers. They're poor self-verifiers.**
+Models tend to agree with their own outputs, and a shared context reinforces that agreement — abandoned approaches, retry artifacts, implicit assumptions, each one whispering "the previous call was right."
 
-The fix isn't better prompting. It's architectural separation.
+**AI is an effective producer, but not a reliable self-verifier.**
 
 ### Starting from a Single Diff
 
-When AI coding assistants generate code, they accumulate local assumptions within the session: abandoned approaches, retry artifacts, tool-call side effects. If the review step reuses the same context, the reviewer tends to inherit the author's framing rather than independently re-deriving whether the change is correct.
+When AI coding assistants generate code, they accumulate local assumptions throughout the session. If the review step reuses the same context, the reviewer tends to inherit the author's framing rather than independently re-deriving whether the change is correct.
 
 **CrossReview**'s core insight: **You don't need a different model — just a different context.** It packages changes, intent, and focus areas into a `ReviewPack` and hands it to a fully context-isolated review session — no original conversation, no reasoning trace, no tool history. The protocol itself isn't limited to code; any reviewable structured artifact falls within its conceptual boundary. v0 starts with code diffs.
 
@@ -30,7 +30,10 @@ This is **local optimum**: ensuring each change is independently verified under 
 
 While building [Sopify](https://github.com/sopify-ai/Sopify), I realized a deeper problem: plans, blueprints, decision records — these **machine contracts** produced by AI workflows are **accumulable project assets**, and they need verification too.
 
-You can perfectly verify every diff, but passing every diff review doesn't mean long-term plans are consistent; completing every task doesn't mean knowledge assets are trustworthy; every agent can produce output, but that doesn't mean the workflow can recover.
+You can perfectly verify every diff —  
+but passing every review doesn't mean long-term plans are consistent;  
+completing every task doesn't mean knowledge assets are trustworthy;  
+every agent can produce output, but that doesn't mean the workflow can recover.
 
 **Sopify** makes the AI workflow itself **recoverable, reviewable, and accumulable**. It pauses when facts are missing; waits for confirmation at decision points; resumes from current state after interruption instead of improvising from scratch.
 
