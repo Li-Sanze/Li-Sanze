@@ -66,15 +66,15 @@
 +------------------------+          +------------------------------+
 | 当前态 (v0-alpha)      |          | 目标态 (v1.0)                |
 |                        |          |                              |
-| 管线完整 OK            |          | Release gate 全通过          |
+| 管线完整 OK            |          | 多制品质量门禁               |
 | code_diff only         |  =====>  | code_diff + design_doc       |
-| unclear_rate 0.20      |          | + Sopify plugin              |
-| 4 fixture              |          | + GitHub Action + MCP        |
+| release gate 9/9 OK    |          | + Sopify plugin              |
+| v0-05/06/07 pending    |          | + GitHub Action + MCP        |
 +------------------------+          +------------------------------+
 ```
 
 **关键里程碑：**
-- v0-04a：unclear_rate 修复 → v0-04b：全量 release gate 重跑
+- v0-04a：unclear_rate 修复 ✅ → v0-04b：全量 release gate 重跑 ✅
 - v0-05/06：human-readable + one-stop verify
 - v0-07：v0 发布就绪判定 → Phase 2 解锁
 
@@ -138,10 +138,12 @@
 name: cross-review
 mode: advisory
 trigger: post_develop
-command: crossreview verify --diff --format human
+default_flow: pack -> render-prompt -> host isolated review -> ingest --format human
+fallback_flow: verify --diff --format human  # standalone only; requires reviewer config / API key
 ```
 
 - Sopify develop 完成后，LLM 自主决定是否调用
+- 默认走 host-integrated 路径，由宿主 fresh / isolated review context 执行 canonical prompt
 - 显示 findings，用户决定是否接受
 - 不阻断工作流，纯建议性质
 
@@ -234,9 +236,11 @@ class BlueprintEnhancer(ABC):
 
 | 阶段 | 独立交付物 | 依赖关系 |
 |------|-----------|---------|
+| **Protocol Step 1** | `.sopify-skills/` 协议规范文档（plan/state/lifecycle/SKILL.md schema） | 无；P1，不抢 P0 |
 | CR v0 release | CLI 工具，独立可用 | 无 |
-| Sopify Phase 4a | advisory skill，可选启用 | 依赖 CR v0 |
+| Sopify Phase 4a | advisory skill + Convention 模式首次验证 | 依赖 CR v0 |
 | Sopify ADR-017 | action schema / side_effect / validator 边界 | 不阻塞 CR v0；约束 Protocol Step 3、Phase 0.1、未来 Phase 4b |
+| Protocol Step 2 | Validator CLI (check/doctor/archive)，信号驱动 | Step 1 + 需求信号（含 Phase 4a 验证数据） |
 | 知识工程 P2 | blueprint/knowledge/ 资产，独立可用，不阻塞 CR/Sopify | 无 |
 | 知识工程 P3 | query skill，增强 Sopify | 依赖 P2 |
 | CR + 知识 | context_files 含业务知识 | 依赖 P2 + CR v0 |
@@ -253,7 +257,7 @@ class BlueprintEnhancer(ABC):
 | **用户话术白名单膨胀** | 风险打断持续追逐用户表达习惯，维护成本高且无法穷举 | ADR-017：LLM 只提议结构化 action，Core/Validator 基于机器事实、side_effect、风险策略授权 |
 | **遗留 surface 长期残留** | runtime/host 改造后旧入口、旧测试、旧文档未清理，导致"看似兼容、实际无人维护"的维护黑洞 | ADR-018：改造时必须声明退出路径（frozen / sunset / removed）；frozen 不计入 release gate |
 | **BlueprintEnhancer 延期** | 阻塞知识工程后续任务（已降 P2，不阻塞 CR/Sopify 主线） | 设定硬截止日期；必要时先用最小 shim 绕过 |
-| **CR unclear_rate 未达标** | 阻塞 Sopify Phase 4a 解锁 | 专项修复 + 全量 release gate 重跑 |
+| **CR 发布就绪链未完成** | release gate 已通过，但 PyPI 与 Sopify Phase 4a 尚不能解锁 | 完成 v0-05 human-readable、v0-06 one-stop verify、v0-07 发布就绪判定 |
 
 ### 中风险
 
@@ -276,14 +280,16 @@ class BlueprintEnhancer(ABC):
 
 ### 短期（2026 H1 剩余）
 
-- [ ] CR v0 release gate 8/8 通过
+- [x] CR v0 release gate 9/9 通过
 - [ ] CR v0 正式发布 + Sopify Phase 4a advisory 端到端跑通
+- [ ] Protocol Step 1 文档完成（Sopify 协议规范独立可读）
 
 ### 中期（2026 H2）
 
 - [ ] BlueprintEnhancer ABC 实现 + graphify enhancer MVP（P2，不阻塞短期主线）
 - [ ] `blueprint/knowledge/graph.json` 在至少 1 个真实项目生成
 - [ ] Sopify Phase 4a (advisory CR) 跑通端到端
+- [ ] Phase 4a Convention 模式验证报告完成，Protocol Step 2/3 激活决策基于验证数据
 - [ ] knowledge-graph-query Skill 在 design/develop 阶段自动注入上下文
 - [ ] CR 支持 host-integrated 模式（宿主隔离执行，零 API 成本）
 

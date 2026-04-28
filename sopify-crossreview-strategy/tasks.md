@@ -9,6 +9,10 @@
 > - `blueprint/knowledge/` 目录 schema 随知识工程一起降 P2，不提前改 Sopify 目录结构
 > - GraphifyEnhancer（知识资产生成）与 Graphify Advisory Skill（Sopify Phase 5 用户插件）概念拆分
 > - 新增 Sopify ADR-017 对齐：Action Schema Boundary，不维护用户话术白名单；生态总纲只记录跨项目影响
+> **修订：2026-04-27 状态同步**
+> - CR release gate 已 9/9 通过 + self_hosting_pool_limit_ok 通过（`blocking_pass: true`）
+> - CR P0 焦点从 unclear_rate / release gate 转为 v0-05 / v0-06 / v0-07 发布就绪链
+> - CR debug JSONL trace 列为 v0-07 后第一个维护迭代，默认关闭，不阻塞 PyPI 首发
 
 ## Source of Truth 声明
 
@@ -25,56 +29,56 @@
 ## 优先级总览
 
 ```
-P0 (阻塞项，立即)     P1 (关键路径)         P2 (知识工程)         P3 (增强，2月+)       🧊 冻结
+P0 (发布就绪，立即)   P1 (关键路径)         P2 (知识工程)         P3 (增强，2月+)       🧊 冻结
 ─────────────────    ─────────────────    ─────────────────   ─────────────────   ─────────────────
-CR unclear_rate修复   PyPI 0.1.0           BlueprintEnhancer   knowledge-graph     CR Phase 4b
-CR release gate       Sopify Phase 4a      ABC 实现             -query Skill         (不进入 0-6 月)
-  全量重跑            Protocol Step 3      GraphifyEnhancer    规则沉淀管线
-CR v0-05/06/07        (ADR-017 约束)       MVP                 反馈闭环设计
-                                           blueprint/knowledge 跨项目知识联邦
-                                           schema 定义         协议瘦身审计
-                                           spec→图谱节点桥接
-                                           图谱自动刷新
+CR v0-05/06/07        PyPI 0.1.0           BlueprintEnhancer   knowledge-graph     CR Phase 4b
+发布就绪链             Sopify Phase 4a      ABC 实现             -query Skill         (不进入 0-6 月)
+CR debug JSONL         (+Convention验证)   GraphifyEnhancer    规则沉淀管线
+trace（v0-07后）       Protocol Step 1      MVP                 反馈闭环设计
+                       (ADR-016 基础)     blueprint/knowledge 跨项目知识联邦
+                      Protocol Step 3      schema 定义         协议瘦身审计
+                       (ADR-017 约束)     spec→图谱节点桥接
+                                            图谱自动刷新
 ```
 
 ---
 
 ## 详细任务分解
 
-### ━━━ P0：阻塞项（立即处理）━━━
+### ━━━ P0：发布就绪（立即处理）━━━
 
-#### T-P0-1：CrossReview unclear_rate 修复
-- **当前状态：** 0.200 > 目标 0.150，阻塞 release gate
-- **影响范围：** 阻塞 CR v0 发布 → 阻塞 Sopify Phase 4a
+#### T-P0-1：CrossReview unclear_rate 修复 `✅ 完成`
+- **当前状态：** 0.133 ≤ 0.150，release gate 已通过（2026-04-27 v0-04a 修复后）
+- **影响范围：** 已解除 CR v0 发布和 Sopify Phase 4a 的 release gate 阻塞
 - **行动：**
-  1. 分析 4 个 fixture 中哪些 findings 触发 unclear
-  2. 优化 Normalizer 约束规则（可能需调整 locatability 推断逻辑）
-  3. 补充 canonical prompt 中对 clarity 的显式要求
-  4. 重跑评测，确认 ≤ 0.150
-- **产出：** unclear_rate ≤ 0.150，v0-04a 关闭
+  1. 复核 unclear finding 并完成 003/018/019 重分类
+  2. 补充 prompt anti-hedge 指令
+  3. 全量重跑评测，确认 ≤ 0.150
+- **产出：** unclear_rate 0.133，v0-04a 关闭
 - **依赖：** 无
-- **估计：** 3-5 天
+- **估计：** 已完成
 
-#### T-P0-2：CR v0-04b 全量 release gate 重跑
+#### T-P0-2：CR v0-04b 全量 release gate 重跑 `✅ 完成`
 > 原 T-P1-4，提升为 P0（CR 发布关键路径）
 
-- **背景：** unclear_rate 修复后需全量验证
+- **背景：** unclear_rate 修复后需全量验证；2026-04-27 已完成
 - **行动：**
-  1. 确认 20 fixture 全部就绪（v0-02 产出）
+  1. 确认 fixture 池就绪（v0-02 产出）
   2. 运行完整 eval harness
-  3. 验证 8 项 release gate 全部达标：
+  3. 验证 9 项 release gate 全部达标：
      - manual_recall ≥ 0.80
      - precision ≥ 0.70
      - invalid_findings_per_run ≤ 2
+     - max_invalid_single_run ≤ 5
      - unclear_rate ≤ 0.15
      - context_fidelity ≥ 0.80
      - actionability ≥ 0.90
      - failure_rate ≤ 0.10
      - fixture_count ≥ 20
-  4. 如有未达标项，分析原因并修复
-- **产出：** 8/8 release gate 通过
+  4. 如有未达标项，分析原因并修复（当前无阻断项）
+- **产出：** 9/9 release gate 通过 + self_hosting_pool_limit_ok 通过
 - **依赖：** T-P0-1
-- **估计：** 3-5 天
+- **估计：** 已完成
 
 #### T-P0-3：CR v0-05 / v0-06 / v0-07 发布就绪链
 > 从 T-P1-1 拆出并提升为 P0（CR 发布关键路径，与 CR 总纲一致）
@@ -87,6 +91,16 @@ CR v0-05/06/07        (ADR-017 约束)       MVP                 反馈闭环设
 - **产出：** CrossReview v0 release ready
 - **依赖：** T-P0-2
 - **估计：** 5-7 天
+
+#### T-P0-4：CR debug JSONL trace `P1 / v0-07 后第一个维护迭代`
+- **背景：** 本地 JSONL trace 对 release gate、unclear_rate、adjudication 调试有直接价值，但不应阻塞 PyPI 首发
+- **行动：**
+  1. 增加默认关闭的 `--debug-jsonl <path>` 输出
+  2. 最小记录 `fixture_id / stage / reason_code / decision / metric_impact / input_hash / output_summary`
+  3. 仅用于调试，不接外部观测平台，不承诺长期兼容 schema
+- **产出：** 本地调试 trace，可用于后续指标回归定位
+- **依赖：** T-P0-3
+- **估计：** 0.5-1 天
 
 ---
 
@@ -104,16 +118,29 @@ CR v0-05/06/07        (ADR-017 约束)       MVP                 反馈闭环设
 - **依赖：** T-P0-3
 - **估计：** 2-3 天
 
-#### T-P1-2：Sopify Phase 4a — CR Advisory 集成
+#### T-P1-2：Sopify Phase 4a — CR Advisory 集成 + Convention 模式验证
 > 原 T-P2-5，提升为 P1（CR 发布后立即启动）
-> **确认既有共识 (2026-04-26)**：Phase 4a 仅做 advisory skill（SKILL.md + skill.yaml + `verify --diff --format human`），不做 bridge.py，不做 pipeline_hooks。三份总纲已对齐。
+> **确认既有共识 (2026-04-28 修订)**：Phase 4a 仅做 advisory skill（SKILL.md + skill.yaml），不做 bridge.py，不做 pipeline_hooks。默认 host-integrated 路径为 `pack -> render-prompt -> 宿主隔离审查 -> ingest --format human`；`verify --diff --format human` 仅作为 standalone fallback，需 reviewer config / API key。Phase 4a scope 三份总纲按此口径对齐。
+> **战略标注 (2026-04-27)**：Phase 4a 同时作为 ADR-016 Convention 模式的首次实战验证。LLM 不经 runtime 编排，仅靠 SKILL.md 表单式指令自主调用外部 CLI。
 
 - **背景：** CrossReview 作为 Sopify develop 后的可选审查
+- **战略双重定位：**
+  1. 产品目标：Sopify develop 后可选触发 CR advisory 审查
+  2. 战略验证：Convention 模式（ADR-016）首次实战检验
+- **Convention 验证指标**（dogfood 完成后评估）：
+  - LLM 是否按 SKILL.md 指令可靠调用 CLI？
+  - failure mode 分类：忘记调用 / 参数错误 / verdict 处理偏离 / 回退路径不触发
+  - 3 项目 dogfood 中 Convention 模式成功率
+  - 是否暴露 Validator (Protocol Step 2) 的真实需求？
+- **验证结果反馈至 Protocol-first 路线：**
+  - 成功率高 → Protocol-first 可行，Step 2 维持信号驱动
+  - 出现系统性偏离 → Step 2 (Validator) 升级为 P1
+  - 特定 failure mode → 定向调整 SKILL.md 格式或 Step 3 优先级
 - **⚠️ 同步更新：** 实现时需同步更新：① Sopify 总纲技能引用表（加 cross-review skill）；② CR 总纲 host_adapter 集成方式；③ CR ReviewPack context_files 来源策略
 - **行动：**
   1. 创建 `.agents/skills/cross-review/` Skill 定义
   2. skill.yaml：advisory mode，post_develop 触发
-  3. SKILL.md：编排 `crossreview verify --diff --format human`
+  3. SKILL.md：编排 `crossreview pack --diff` → `crossreview render-prompt` → 宿主隔离审查 → `crossreview ingest --format human`
   4. 测试：develop → findings 展示 → 用户决策
 - **产出：** Sopify develop 完成后可触发 CrossReview 审查
 - **依赖：** T-P1-1
@@ -144,6 +171,22 @@ CR v0-05/06/07        (ADR-017 约束)       MVP                 反馈闭环设
 - **产出：** Sopify runtime / host 遗留面治理统一
 - **依赖：** 无（不阻塞 T-P0-* / T-P1-1 / T-P1-2 / T-P1-3）
 - **估计：** 文档级 0.5 天；Trae cleanup 1-2 天
+
+#### T-P1-6：Protocol Step 1 — 协议文档提取
+> ADR-016 Protocol-first 顶层战略的执行基础。Sopify 内部执行，生态追踪可见性。
+
+- **背景：** ADR-016 确认 Protocol 是 Sopify 不可替代的核心价值层，但协议规范从未被独立提取为文档。Protocol Step 1 是 Step 2 (Validator) 和 Step 3 (Action Schema) 的链式前置。
+- **行动：**
+  1. 提取 plan schema：目录约定、文件命名、background/design/tasks 结构
+  2. 提取 state schema：current_handoff.json / current_run.json / gate_receipt 契约字段
+  3. 提取 lifecycle 约定：plan → history 生命周期、归档规则、blueprint 更新触发
+  4. 提取 SKILL.md 编排规范：表单式格式、`[ACTION:]` 模式、分支结构、弱模型下界要求
+  5. 提取 checkpoint schema：4 种内置 checkpoint 的字段约定与 side_effect 标注
+- **产出：** docs/protocol/ 或 .sopify-skills/protocol/，独立可读的协议规范
+- **依赖：** 无
+- **验证：** CR 团队作为外部读者验证可理解性；至少 1 个非 Sopify 维护者能读懂并回答"如何接入"
+- **约束：** 纯文档零代码，不抢 P0；不与 Phase 0.2-B/C 或 CR gate 冲突
+- **估计：** 2-3 天
 
 ---
 
@@ -355,12 +398,18 @@ CR v0-05/06/07        (ADR-017 约束)       MVP                 反馈闭环设
 ## 依赖关系图
 
 ```
-T-P0-1 (CR unclear_rate)
-    └──→ T-P0-2 (release gate 全量重跑)
+T-P0-1 ✅ (CR unclear_rate)
+    └──→ T-P0-2 ✅ (release gate 全量重跑)
             └──→ T-P0-3 (v0-05/06/07 发布就绪)
+                    ├──→ T-P0-4 (debug JSONL trace, 默认关闭, v0-07 后)
                     └──→ T-P1-1 (CR PyPI 0.1.0)
-                            └──→ T-P1-2 (Sopify Phase 4a)
-                                    └──→ T-FROZEN-1 (CR Phase 4b, 🧊 冻结)
+                            └──→ T-P1-2 (Sopify Phase 4a + Convention 验证)
+                                    ├──→ T-FROZEN-1 (CR Phase 4b, 🧊 冻结)
+                                    └──→ Convention 验证数据 → Protocol Step 2 激活信号
+
+T-P1-6 (Protocol Step 1, ADR-016 基础, 纯文档)  ← P1，不抢 P0，与 Phase 0.2-B/C 并行
+    ├──→ Protocol Step 2 (信号驱动：Step 1 + Phase 4a 验证数据 或 2次校验需求 或 新宿主接入)
+    └──→ Protocol Step 3 (通过 T-P1-3 ADR-017 已部分覆盖)
 
 T-P1-3 (Sopify ADR-017 Action Schema Boundary)  ← 独立，不阻塞 CR P0
     ├──→ Protocol Step 3
@@ -405,26 +454,39 @@ tasks:
     priority: P0
     depends_on: []
     project: cross-review
+    status: completed
   T-P0-2:
     title: CR release gate 全量重跑
     priority: P0
     depends_on: [T-P0-1]
     project: cross-review
+    status: completed
   T-P0-3:
     title: CR v0-05/06/07 发布就绪链
     priority: P0
     depends_on: [T-P0-2]
     project: cross-review
+  T-P0-4:
+    title: CR debug JSONL trace
+    priority: P1
+    depends_on: [T-P0-3]
+    project: cross-review
+    note: "v0-07 后第一个维护迭代；默认关闭；不阻塞 PyPI 首发"
   T-P1-1:
     title: CR PyPI 0.1.0 发布
     priority: P1
     depends_on: [T-P0-3]
     project: cross-review
   T-P1-2:
-    title: Sopify Phase 4a CR Advisory
+    title: Sopify Phase 4a CR Advisory + Convention 模式验证
     priority: P1
     depends_on: [T-P1-1]
     project: sopify-skills
+    strategic_validation: "ADR-016 Convention mode first real-world test"
+    validation_metrics:
+      - "SKILL.md 遵循率"
+      - "LLM failure mode 分类"
+      - "是否触发 Step 2 Validator 需求"
   T-P1-3:
     title: Sopify ADR-017 Action Schema Boundary
     priority: P1
@@ -448,6 +510,17 @@ tasks:
       - future keyword alias sets retirement (post ADR-017)
     external_refs:
       - sopify-skills:T-cleanup-1..T-cleanup-4
+  T-P1-6:
+    title: Protocol Step 1 — 协议文档提取
+    priority: P1
+    depends_on: []
+    project: sopify-skills
+    scope: "protocol_foundation"
+    blocks_cr_p0: false
+    note: "ADR-016 顶层战略基础；纯文档零代码；Sopify 内部执行，生态追踪可见性"
+    enables:
+      - "Protocol Step 2 (Validator CLI, 信号驱动)"
+      - "Protocol Step 3 (通过 T-P1-3 ADR-017)"
   T-P2-1:
     title: BlueprintEnhancer ABC
     priority: P2
@@ -528,14 +601,15 @@ tasks:
 > 生态里程碑编号用于跨项目排序；CR 总纲中的 M0 / v0 Release Gate 对应本文 M1。
 
 ### M1：CR 发布就绪（+2 周）
-- [ ] CR unclear_rate ≤ 0.150
-- [ ] CR release gate 8/8 通过
+- [x] CR unclear_rate ≤ 0.150
+- [x] CR release gate 9/9 通过 + self_hosting_pool_limit_ok 通过
 - [ ] v0-05 / v0-06 / v0-07 发布就绪链通过
 
-### M2：CR 正式发布 + Phase 4a（+4 周）
+### M2：CR 正式发布 + Phase 4a + Protocol 基础（+4 周）
 - [ ] CR v0 正式发布（PyPI 0.1.0）
-- [ ] Sopify Phase 4a advisory 跑通
+- [ ] Sopify Phase 4a advisory 跑通 + Convention 模式验证指标采集
 - [ ] Sopify ADR-017 文档口径完成，Protocol Step 3 按 action schema 推进
+- [ ] Protocol Step 1 文档完成（Sopify 协议规范独立可读）
 
 ### M3：知识工程基础（+8 周，不阻塞 M1/M2）
 - [ ] BlueprintEnhancer ABC 可用
@@ -567,6 +641,7 @@ tasks:
 | D-A6 | GraphifyEnhancer vs Graphify Advisory Skill | 两个独立概念：前者是知识资产生成（P2），后者是 Sopify Phase 5 用户插件 |
 | D-A7 | Action Schema Boundary | Sopify ADR-017：不维护用户话术白名单；LLM 只提议结构化 action，Core/Validator 基于机器事实、side_effect 和风险策略授权 |
 | D-A8 | Legacy Surface Retirement | Sopify ADR-018：runtime/host cleanup 由 Sopify 总纲负责；生态总纲只追踪完成状态 |
+| D-A9 | Protocol-first 执行介入 | ADR-016 顶层战略对齐：Protocol Step 1 升 P1；Phase 4a 标注 Convention 验证；生态层补可见性 |
 
 ### 待确认
 

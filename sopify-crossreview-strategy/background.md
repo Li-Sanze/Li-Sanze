@@ -36,7 +36,7 @@ Sopify 和 CrossReview 分别占据生产侧与验证侧，形成闭环。
    | · 开发实施            | -------> | · 确定性裁决             |
    |                       |          |                          |
    | · checkpoint          | <------- | · 双指纹追踪             |
-   | · 知识库同步          | findings | · 8项 release gate       |
+   | · 知识库同步          | findings | · 9 项 release gate      |
    +-----------------------+          +--------------------------+
 ```
 
@@ -53,6 +53,8 @@ Sopify 和 CrossReview 分别占据生产侧与验证侧，形成闭环。
 
 **当前成熟度：** 核心工作流深度验证 ✅，多宿主稳定 ✅
 
+**架构战略 (ADR-016, 2026-04-26)**：Sopify 确认 Protocol-first / Runtime-optional 方向。核心价值层定位为 `.sopify-skills/` 文件协议和 schema（plan/state/history/checkpoint schema + SKILL.md 编排），runtime 降级为可选增强层与参考实现。这意味着 CrossReview 等外部工具可通过协议层接入，无需依赖完整 runtime。Phase 4a advisory 模式是此战略的首次实战验证 — LLM 仅靠 SKILL.md 指令自主调用 CR CLI，不经 runtime 编排。
+
 ### 2.2 CrossReview — 上下文隔离的独立验证
 
 **核心定义：** AI 编程时代的独立验证基础设施
@@ -67,7 +69,7 @@ Sopify 和 CrossReview 分别占据生产侧与验证侧，形成闭环。
 | 确定性管线 | Normalizer/Adjudicator 规则可从 knowledge/rules/ 加载 |
 | host-integrated 模式 | render-prompt + ingest = 宿主零 API 成本集成 |
 
-**当前成熟度：** v0-alpha，核心管线完整 ✅，release gate 73% 达标 ⚠️
+**当前成熟度：** v0-alpha，核心管线完整 ✅，release gate 9/9 通过 ✅（`blocking_pass: true`，2026-04-27 v0-04a 修复后）
 
 **vs 竞品差异化：**
 | 维度 | Claude ultrareview | Copilot CR | code-review Skill | CrossReview |
@@ -75,7 +77,7 @@ Sopify 和 CrossReview 分别占据生产侧与验证侧，形成闭环。
 | 上下文隔离 | ✓ 云端 | ✗ 共享 PR session | ✗ 共享会话 | ✓ ReviewPack 协议 |
 | 判定层 | LLM 全程 | LLM 全程 | LLM 全程 | **规则化**（确定性） |
 | 可追踪性 | 无 fingerprint | 无 | 无 | SHA-256 双指纹 |
-| 质量度量 | 不透明 | 不透明 | 无 | **8 指标 release gate** |
+| 质量度量 | 不透明 | 不透明 | 无 | **9 指标 release gate** |
 | 成本 | 5-20 agent × 10-25 min | 套餐 | 1 次 LLM call | 1 reviewer × 1 call |
 | 输出格式 | 自然语言 | 平台内嵌评论 | 自然语言 | **结构化 JSON** |
 | 可移植性 | ✗ 绑定 Anthropic | ✗ 绑定 GitHub | ⚠️ 绑定 Copilot CLI | ✓ 任何宿主 |
@@ -156,7 +158,7 @@ AI 工具（Sopify 生产 + CrossReview 验证）
 | 架构哲学 | harness engineering | deterministic pipeline | ✅ 一致 |
 | 知识依赖 | `.sopify-skills/blueprint/` | ReviewPack context_files | ✅ 可接通 |
 | 集成路径 | Phase 4a/4b 明确定义 | Sopify plugin 有 skill.yaml | ✅ 已规划 |
-| 质量观 | checkpoint 拦截 + 用户确认 | 8 项 release gate | ✅ 互补 |
+| 质量观 | checkpoint 拦截 + 用户确认 | 9 项 release gate | ✅ 互补 |
 | 知识消费 | blueprint + plan 指导生产 | context_files 指导审查 | ✅ 双端复用 |
 
 ### 5.2 整体判定
@@ -167,7 +169,7 @@ AI 工具（Sopify 生产 + CrossReview 验证）
 
 **风险标识：**
 - ⚠️ Sopify 协议复杂度有膨胀趋势（runtime gate 校验链已 4 项条件 + 多种 response mode）
-- ⚠️ CrossReview release gate 尚有 1 项指标未达（unclear_rate 0.200 > 0.150）
+- ✅ CrossReview release gate 9/9 全通过（`blocking_pass: true`；unclear_rate 0.133 ≤ 0.150，v0-04a 已修复）
 - ⚠️ 知识工程 P2 基础设施（BlueprintEnhancer ABC）0% 完成，阻塞知识工程链路，不阻塞 CR/Sopify 主线
 
 ---
@@ -190,5 +192,5 @@ AI 工具（Sopify 生产 + CrossReview 验证）
 | 子项目 | 引用版本/状态 | 上次同步 |
 |--------|-------------|---------|
 | Sopify 总纲 | v2026-04-14 (core deep verified) | 2026-04-26 |
-| CrossReview 总纲 | v0-alpha (v0-04a pending) | 2026-04-26 |
+| CrossReview 总纲 | v0-alpha (release gate 9/9 passed; v0-05/06/07 pending) | 2026-04-27 |
 | 知识工程研究 | knowledge-engineering-research.md | 2026-04-26 |
