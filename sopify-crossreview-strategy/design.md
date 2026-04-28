@@ -69,14 +69,15 @@
 | 管线完整 OK            |          | 多制品质量门禁               |
 | code_diff only         |  =====>  | code_diff + design_doc       |
 | release gate 9/9 OK    |          | + Sopify plugin              |
-| v0-05/06/07 pending    |          | + GitHub Action + MCP        |
+| PyPI 0.1.0a1 OK        |          | + GitHub Action + MCP        |
 +------------------------+          +------------------------------+
 ```
 
 **关键里程碑：**
 - v0-04a：unclear_rate 修复 ✅ → v0-04b：全量 release gate 重跑 ✅
-- v0-05/06：human-readable + one-stop verify
-- v0-07：v0 发布就绪判定 → Phase 2 解锁
+- v0-05/06：human-readable + one-stop verify ✅
+- v0-07：v0 发布就绪判定 ✅ → PyPI `0.1.0a1` 发布 + post-release smoke ✅
+- 当前下一步：Sopify Phase 4a E2E + 3 项目 dogfood
 
 ### 主线 C：知识工程落地
 
@@ -257,7 +258,7 @@ class BlueprintEnhancer(ABC):
 | **用户话术白名单膨胀** | 风险打断持续追逐用户表达习惯，维护成本高且无法穷举 | ADR-017：LLM 只提议结构化 action，Core/Validator 基于机器事实、side_effect、风险策略授权 |
 | **遗留 surface 长期残留** | runtime/host 改造后旧入口、旧测试、旧文档未清理，导致"看似兼容、实际无人维护"的维护黑洞 | ADR-018：改造时必须声明退出路径（frozen / sunset / removed）；frozen 不计入 release gate |
 | **BlueprintEnhancer 延期** | 阻塞知识工程后续任务（已降 P2，不阻塞 CR/Sopify 主线） | 设定硬截止日期；必要时先用最小 shim 绕过 |
-| **CR 发布就绪链未完成** | release gate 已通过，但 PyPI 与 Sopify Phase 4a 尚不能解锁 | 完成 v0-05 human-readable、v0-06 one-stop verify、v0-07 发布就绪判定 |
+| **Phase 4a dogfood 未完成** | CR 已发布且 Sopify advisory skill 已草拟，但 Convention 模式尚未用真实 develop 流程验证 | 执行 Sopify Phase 4a E2E + 3 项目 dogfood，记录 failure mode 与 valid issue |
 
 ### 中风险
 
@@ -281,7 +282,8 @@ class BlueprintEnhancer(ABC):
 ### 短期（2026 H1 剩余）
 
 - [x] CR v0 release gate 9/9 通过
-- [ ] CR v0 正式发布 + Sopify Phase 4a advisory 端到端跑通
+- [x] CR v0 alpha `0.1.0a1` 发布 + post-release smoke 通过
+- [ ] Sopify Phase 4a advisory 端到端跑通 + 3 项目 dogfood
 - [ ] Protocol Step 1 文档完成（Sopify 协议规范独立可读）
 
 ### 中期（2026 H2）
@@ -291,7 +293,7 @@ class BlueprintEnhancer(ABC):
 - [ ] Sopify Phase 4a (advisory CR) 跑通端到端
 - [ ] Phase 4a Convention 模式验证报告完成，Protocol Step 2/3 激活决策基于验证数据
 - [ ] knowledge-graph-query Skill 在 design/develop 阶段自动注入上下文
-- [ ] CR 支持 host-integrated 模式（宿主隔离执行，零 API 成本）
+- [x] CR 支持 host-integrated 模式（宿主隔离执行，零 API 成本；`pack` / `render-prompt` / `ingest` 已发布）
 
 ### 长期（2027）
 

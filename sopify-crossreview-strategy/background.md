@@ -69,7 +69,7 @@ Sopify 和 CrossReview 分别占据生产侧与验证侧，形成闭环。
 | 确定性管线 | Normalizer/Adjudicator 规则可从 knowledge/rules/ 加载 |
 | host-integrated 模式 | render-prompt + ingest = 宿主零 API 成本集成 |
 
-**当前成熟度：** v0-alpha，核心管线完整 ✅，release gate 9/9 通过 ✅（`blocking_pass: true`，2026-04-27 v0-04a 修复后）
+**当前成熟度：** v0-alpha，核心管线完整 ✅，release gate 9/9 通过 ✅（`blocking_pass: true`，2026-04-27 v0-04a 修复后），PyPI `0.1.0a1` 已发布并完成 post-release smoke ✅
 
 **vs 竞品差异化：**
 | 维度 | Claude ultrareview | Copilot CR | code-review Skill | CrossReview |
@@ -165,11 +165,11 @@ AI 工具（Sopify 生产 + CrossReview 验证）
 
 **收敛度：高** — 两个项目围绕同一核心命题（AI 编程质量保障）展开，分工明确、接口清晰、知识底座共享。不存在方向性分歧或重复建设。
 
-**潜力评级：⭐⭐⭐⭐☆ (4/5)** — 差异化定位清晰：Sopify 保障生产过程，CrossReview 保障产出验证。短中期关键变量是 CR release gate 与 Phase 4a dogfood；知识工程只是长期增强层。
+**潜力评级：⭐⭐⭐⭐☆ (4/5)** — 差异化定位清晰：Sopify 保障生产过程，CrossReview 保障产出验证。短中期关键变量已从 CR release gate 转为 Phase 4a E2E / 3 项目 dogfood；知识工程只是长期增强层。
 
 **风险标识：**
 - ⚠️ Sopify 协议复杂度有膨胀趋势（runtime gate 校验链已 4 项条件 + 多种 response mode）
-- ✅ CrossReview release gate 9/9 全通过（`blocking_pass: true`；unclear_rate 0.133 ≤ 0.150，v0-04a 已修复）
+- ✅ CrossReview release gate 9/9 全通过，PyPI `0.1.0a1` 已发布并 smoke 通过；当前风险转为 Phase 4a dogfood 尚未完成
 - ⚠️ 知识工程 P2 基础设施（BlueprintEnhancer ABC）0% 完成，阻塞知识工程链路，不阻塞 CR/Sopify 主线
 
 ---
@@ -192,5 +192,6 @@ AI 工具（Sopify 生产 + CrossReview 验证）
 | 子项目 | 引用版本/状态 | 上次同步 |
 |--------|-------------|---------|
 | Sopify 总纲 | v2026-04-14 (core deep verified) | 2026-04-26 |
-| CrossReview 总纲 | v0-alpha (release gate 9/9 passed; v0-05/06/07 pending) | 2026-04-27 |
+| CrossReview 总纲 | v0-alpha `0.1.0a1` published; release gate 9/9 passed; post-release smoke passed | 2026-04-28 |
+| Sopify Phase 4a | advisory skill drafted; E2E + 3 项目 dogfood pending | 2026-04-28 |
 | 知识工程研究 | knowledge-engineering-research.md | 2026-04-26 |
