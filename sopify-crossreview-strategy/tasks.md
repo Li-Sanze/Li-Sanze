@@ -642,6 +642,7 @@ tasks:
 | D-A7 | Action Schema Boundary | Sopify ADR-017：不维护用户话术白名单；LLM 只提议结构化 action，Core/Validator 基于机器事实、side_effect 和风险策略授权 |
 | D-A8 | Legacy Surface Retirement | Sopify ADR-018：runtime/host cleanup 由 Sopify 总纲负责；生态总纲只追踪完成状态 |
 | D-A9 | Protocol-first 执行介入 | ADR-016 顶层战略对齐：Protocol Step 1 升 P1；Phase 4a 标注 Convention 验证；生态层补可见性 |
+| D-A10 | GitHub Org 迁移 | umbrella org 从 `sopify-ai` 迁移至 `evidentloop`（展示名 EvidentLoop）。Sopify → `evidentloop/Sopify`，CrossReview → `evidentloop/CrossReview`，ai-daily-brief → `Li-Sanze/ai-daily-brief`（不属于 evidence/verification 叙事）。org 名语义：evident(证据可见) + loop(三环飞轮)，覆盖生产-验证-知识三条线 |
 
 ### 待确认
 
