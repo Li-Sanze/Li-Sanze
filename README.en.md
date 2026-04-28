@@ -28,7 +28,7 @@ This is **local optimum**: ensuring each change is independently verified under 
 
 ### But Local Optimum ≠ Global Optimum
 
-While building [Sopify](https://github.com/sopify-ai/Sopify), I realized a deeper problem: plans, blueprints, decision records — these **machine contracts** produced by AI workflows are **accumulable project assets**, and they need verification too.
+While building [Sopify](https://github.com/evidentloop/Sopify), I realized a deeper problem: plans, blueprints, decision records — these **machine contracts** produced by AI workflows are **accumulable project assets**, and they need verification too.
 
 You can perfectly verify every diff —  
 but passing every review doesn't mean long-term plans are consistent;  
@@ -54,7 +54,7 @@ In the context of AI-assisted programming, a structural engineer asks:
 | Level | Minimal Stable Unit | Verification Mechanism | Project |
 |-------|-------------------|----------------------|---------|
 | **Local** | One diff + isolated context | Context-isolated cross-review | [CrossReview](https://github.com/Li-Sanze/cross-review) |
-| **Global** | Full workflow lifecycle | Checkpoints, blueprints, traceable decision chains | [Sopify](https://github.com/sopify-ai/Sopify) |
+| **Global** | Full workflow lifecycle | Checkpoints, blueprints, traceable decision chains | [Sopify](https://github.com/evidentloop/Sopify) |
 
 CrossReview ensures the correctness of each unit. Sopify ensures their composition produces a correct, sustainably accumulable whole.
 
@@ -81,7 +81,7 @@ Context-isolated cross-verification
 </td>
 <td width="50%" valign="top">
 
-### [Sopify](https://github.com/sopify-ai/Sopify)
+### [Sopify](https://github.com/evidentloop/Sopify)
 
 Recoverable, reviewable, accumulable AI coding workflow
 
