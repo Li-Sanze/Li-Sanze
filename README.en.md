@@ -2,9 +2,9 @@
 
 [简体中文](./README.md) · English
 
-I build tools for working with AI. I mainly maintain [Sopify](https://github.com/evidentloop/sopify) and [EvidentLoop](https://github.com/evidentloop/evidentloop), and I contribute to the community-built [Fireworks Tech Graph](https://github.com/yizhiyanhua-ai/fireworks-tech-graph).
+I build tools for AI-assisted software development. I mainly maintain [Sopify](https://github.com/evidentloop/sopify) and [EvidentLoop](https://github.com/evidentloop/evidentloop), and I contribute to the community-built [Fireworks Tech Graph](https://github.com/yizhiyanhua-ai/fireworks-tech-graph).
 
-Most of my work comes back to three practical questions: how to resume after an interruption, how to review AI output independently, and how to keep that evidence with the plan.
+I focus on three practical questions: how to resume work after an interruption, how to review AI output independently, and how to keep the resulting evidence with the plan.
 
 ![How I build and review AI-assisted work](./assets/project-loop.svg)
 
@@ -26,8 +26,6 @@ Turns natural language into editable SVG and PNG technical diagrams. The workflo
 
 ## Other projects
 
-I also use Sopify and EvidentLoop while building these smaller tools:
-
-- [doc-to-sketch](https://github.com/statefulai/doc-to-sketch) — Turns documents into hand-drawn illustrations.
-- [tech-report](https://github.com/statefulai/tech-report) — Builds technical reports from code, commits, and documents.
-- [ai-daily-brief](https://github.com/statefulai/ai-daily-brief) — Collects a daily brief of AI news.
+- [zh-tech-writing](https://github.com/statefulai/zh-tech-writing) — Reviews and revises Simplified Chinese technical documents while preserving technical meaning and distinguishing proposed, implemented, and verified states.
+- [doc-to-sketch](https://github.com/statefulai/doc-to-sketch) — Turns documents into hand-drawn technical illustrations.
+- [reading-maps](https://github.com/Li-Sanze/reading-maps) — Shows the structure first, supports question-led deep dives, and points readers back to the source text.

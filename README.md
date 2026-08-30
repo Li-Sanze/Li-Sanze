@@ -4,7 +4,7 @@
 
 我在做 AI 协作开发工具，主要维护 [Sopify](https://github.com/evidentloop/sopify) 和 [EvidentLoop](https://github.com/evidentloop/evidentloop)，也参与社区共建的 [Fireworks Tech Graph](https://github.com/yizhiyanhua-ai/fireworks-tech-graph)。
 
-我平时主要解决三个问题：工作中断后怎么接着做，AI 产物怎么独立审查，审查结果怎么留在计划里。
+我主要关注三个具体问题：工作中断后怎么接着做，AI 产物怎么独立审查，审查证据怎么留在计划里。
 
 ![我如何构建和审查 AI 辅助产物](./assets/project-loop.svg)
 
@@ -26,8 +26,6 @@ Sopify 是一套安装到现有 AI 编程工具中的工作流规则，不需要
 
 ## 其他项目
 
-这些小工具的日常开发也使用 Sopify 和 EvidentLoop：
-
-- [doc-to-sketch](https://github.com/statefulai/doc-to-sketch) — 把文档转成手绘风格配图。
-- [tech-report](https://github.com/statefulai/tech-report) — 从代码、commit 和文档整理技术报告。
-- [ai-daily-brief](https://github.com/statefulai/ai-daily-brief) — 汇总每日 AI 资讯。
+- [zh-tech-writing](https://github.com/statefulai/zh-tech-writing) — 审阅和修改简体中文技术文档，保留技术语义，并区分方案、实现和验证状态。
+- [doc-to-sketch](https://github.com/statefulai/doc-to-sketch) — 把文档转成中文手绘技术配图。
+- [reading-maps](https://github.com/Li-Sanze/reading-maps) — 先看全书结构，按问题深挖，最后回到原文。

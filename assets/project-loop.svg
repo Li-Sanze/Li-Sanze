@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 580" width="1200" height="580" role="img" aria-labelledby="title desc">
   <title id="title">How I build and review AI-assisted work</title>
-  <desc id="desc">AI-assisted work is planned and built, keeps its plans and handoffs in Sopify, then moves to EvidentLoop for independent review and visual audit artifacts. The audit artifact can be attached to the Sopify plan as evidence. The author contributes to the community-built Fireworks Tech Graph and builds Stateful AI tools.</desc>
+  <desc id="desc">AI-assisted work is planned and built, keeps its plans and handoffs in Sopify, then moves to EvidentLoop for independent review and visual audit artifacts. The audit artifact can be attached to the Sopify plan as evidence. The author contributes to the community-built Fireworks Tech Graph and builds zh-tech-writing, doc-to-sketch, and reading-maps.</desc>
   <style>
     text {
       font-family: "Helvetica Neue", Helvetica, Arial, "PingFang SC", "Microsoft YaHei", sans-serif;
@@ -89,8 +89,8 @@
     <rect x="670" y="499" width="7" height="7" rx="1.5" fill="#0f766e"/>
     <rect x="660" y="509" width="7" height="7" rx="1.5" fill="#0f766e"/>
     <rect x="670" y="509" width="7" height="7" rx="1.5" fill="#0f766e"/>
-    <text x="698" y="502" class="proof-title">Stateful AI tools</text>
-    <text x="698" y="525" class="proof-copy">doc-to-sketch · tech-report · ai-daily-brief</text>
+    <text x="698" y="502" class="proof-title">Selected projects</text>
+    <text x="698" y="525" class="proof-copy" style="font-size:13px">zh-tech-writing · doc-to-sketch · reading-maps</text>
   </g>
 
 </svg>
