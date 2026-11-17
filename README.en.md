@@ -2,7 +2,7 @@
 
 [简体中文](./README.md) · English
 
-I build tools for AI-assisted software development. I mainly maintain [Sopify](https://github.com/evidentloop/sopify) and [EvidentLoop](https://github.com/evidentloop/evidentloop), and I contribute to the community-built [Fireworks Tech Graph](https://github.com/yizhiyanhua-ai/fireworks-tech-graph).
+I build tools for AI-assisted software development. I mainly maintain [Sopify](https://github.com/evidentloop/sopify) and [EvidentLoop (`dsh-evidentloop`)](https://github.com/evidentloop/dsh-evidentloop), and I contribute to the community-built [Fireworks Tech Graph](https://github.com/yizhiyanhua-ai/fireworks-tech-graph).
 
 I focus on three practical questions: how to resume work after an interruption, how to review AI output independently, and how to keep the resulting evidence with the plan.
 
@@ -14,9 +14,9 @@ I focus on three practical questions: how to resume work after an interruption, 
 
 Sopify is a workflow installed into the AI coding tools you already use, not a separate editor or app. Plans, decisions, handoffs, and verification records stay in the repository, so work can continue across tools and sessions.
 
-### [EvidentLoop](https://github.com/evidentloop/evidentloop)
+### [EvidentLoop](https://github.com/evidentloop/dsh-evidentloop)
 
-Starts with a local Git diff and produces a validated `audit.json` and a self-contained `audit.html`. The report can capture user feedback and serve as an audit artifact in a Sopify plan.
+Evidence-backed AI code change review plugin for [DeepSeek Harness](https://github.com/deepseek-ai/deepseek-harness) (beta). Turns local and branch changes into inspectable deliveries with feature-level summaries, requirement alignment, code-grounded findings, fix drafts written back to the session input, and offline exports. [Website (Chinese)](https://evidentloop.sanze.dev) · [Demo video (Chinese)](https://evidentloop.sanze.dev/demo.html) · [npm (`@beta`)](https://www.npmjs.com/package/@evidentloop/dsh-evidentloop)
 
 ## Community contribution
 
